@@ -1,0 +1,19 @@
+{
+  "name": "vcm-cli",
+  "version": "1.0.0",
+  "description": "Verify Commit Message",
+  "main": "src/index.js",
+  "scripts": {
+    "vcm": "node bin/vcm.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "vcm": "bin/vcm.js"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
