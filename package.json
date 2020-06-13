@@ -1,6 +1,6 @@
 {
   "name": "vcm-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Verify Commit Message",
   "main": "src/index.js",
   "scripts": {
