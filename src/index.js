@@ -17,7 +17,7 @@ module.exports = class Service {
     this.inlineOptions = inlineOptions
   }
   init() {
-    const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.Merge\sbranch)/
+    const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.?Merge\sbranch)/
     if (!commitRE.test(msg)) {
       console.error(
         `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
