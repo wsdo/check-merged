@@ -7,11 +7,9 @@
  * @Description: file content
  */
 
-const chalk = require("chalk"); // eslint-disable-line
-const msgPath = process.env.HUSKY_GIT_PARAMS;
-const msg = require("fs")
-  .readFileSync(msgPath, "utf-8")
-  .trim();
+const chalk = require('chalk') // eslint-disable-line
+const msgPath = process.env.HUSKY_GIT_PARAMS
+const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
 module.exports = class Service {
   constructor(context, { inlineOptions } = {}) {
     this.initialized = false
@@ -19,10 +17,10 @@ module.exports = class Service {
     this.inlineOptions = inlineOptions
   }
   init() {
-    const commitRE = /^(v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|Merge\sbranch)(\(.+\))?!?: .{1,50})/;
+    const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.Merge\sbranch)/
     if (!commitRE.test(msg)) {
       console.error(
-        `  ${chalk.bgRed.white(" ERROR ")} ${chalk.red(
+        `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
           `commit message 提交信息：‘${msg}’不符合提交约束规范！！！`
         )}\n\n` +
           chalk.red(`  commit message 提交信息规范：请参考以下提示:\n\n`) +
@@ -33,8 +31,8 @@ module.exports = class Service {
             `fix:  类型为 fix 的提交表示在代码库中修复了一个bug。 git commit -am"fix: 修复了...bug"`
           )}\n\n` +
           chalk.red(`  See https://shudong.wang/10647.html for more details.\n`)
-      );
-      process.exit(1);
+      )
+      process.exit(1)
     }
   }
   async run() {
