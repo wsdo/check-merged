@@ -10,7 +10,7 @@
  */
 
 const Service = require('../src')
-const service = new Service(process.env.VUE_CLI_CONTEXT || process.cwd())
+const service = new Service(process.cwd())
 service.run().catch(err => {
   console.error(err)
   process.exit(1)
