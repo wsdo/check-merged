@@ -25,7 +25,7 @@ module.exports = class Service {
     if (!!checkMerge.length) {
       console.error(
         `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
-          `当前分支没有merge maser，请检查代码`
+          `当前分支没有merge master，请检查代码`
         )}\n\n` +
           chalk.red(`请参考以下提示:\n\n`) +
           `    ${chalk.green(
@@ -36,6 +36,8 @@ module.exports = class Service {
           )}\n\n`
       )
       process.exit(1)
+    } else {
+      console.log(`${chalk.green('当前分支与 master 分支代码一致')}`)
     }
   }
   async run() {
