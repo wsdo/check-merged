@@ -13,6 +13,7 @@ const childProcess = require('child_process')
 // const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
 const branch = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\s+/, '')
 console.log('branch',branch);
+const checkMerge = childProcess.execSync(`git fetch --all`)
 const checkMerge = childProcess.execSync(`git log master ^${branch}`).toString().replace(/\s+/, '')
 
 module.exports = class Service {
@@ -22,9 +23,9 @@ module.exports = class Service {
     this.inlineOptions = inlineOptions
   }
   init() {
-    console.log('checkMerge',checkMerge);
+    console.log('checkMerge',checkMerge.length);
     // const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.?Merge\sbranch)/
-    if (0) {
+    if (!checkMerge.length) {
       console.error(
         `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
           `commit message 提交信息：‘${msg}’不符合提交约束规范！！！`
@@ -36,7 +37,7 @@ module.exports = class Service {
           `    ${chalk.green(
             `fix:  类型为 fix 的提交表示在代码库中修复了一个bug。 git commit -am"fix: 修复了...bug"`
           )}\n\n` +
-          chalk.red(`  See https://shudong.wang/10647.html for more details.\n`)
+          chalk.red(`当前分支没有merge maser，请检查代码`)
       )
       process.exit(1)
     }
