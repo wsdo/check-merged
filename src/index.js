@@ -13,7 +13,7 @@ const childProcess = require('child_process')
 // const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
 const branch = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\s+/, '')
 console.log('branch',branch);
-const checkMerge = childProcess.execSync(`git fetch --all`)
+childProcess.execSync(`git fetch --all`)
 const checkMerge = childProcess.execSync(`git log master ^${branch}`).toString().replace(/\s+/, '')
 
 module.exports = class Service {
@@ -25,19 +25,18 @@ module.exports = class Service {
   init() {
     console.log('checkMerge',checkMerge.length);
     // const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.?Merge\sbranch)/
-    if (!checkMerge.length) {
+    if (!!checkMerge.length) {
       console.error(
         `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
-          `commit message 提交信息：‘${msg}’不符合提交约束规范！！！`
+          `当前分支没有merge maser，请检查代码`
         )}\n\n` +
-          chalk.red(`  commit message 提交信息规范：请参考以下提示:\n\n`) +
+          chalk.red(`请参考以下提示:\n\n`) +
           `    ${chalk.green(
-            `feat: 类型为 feat 的提交表示在代码库中新增了一个功能。 git commit -am"feat: 增加了...功能"`
+            `温馨提醒：当前分支远离master，请主动把master拉取到最新，然后merge到当前分支上面`
           )}\n` +
           `    ${chalk.green(
-            `fix:  类型为 fix 的提交表示在代码库中修复了一个bug。 git commit -am"fix: 修复了...bug"`
-          )}\n\n` +
-          chalk.red(`当前分支没有merge maser，请检查代码`)
+            `脚本: git checkout master && git pull origin master && git checkout - && git merge master "`
+          )}\n\n`
       )
       process.exit(1)
     }
