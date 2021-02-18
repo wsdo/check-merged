@@ -10,9 +10,8 @@
 const chalk = require('chalk') // eslint-disable-line
 const msgPath = process.env.HUSKY_GIT_PARAMS
 const childProcess = require('child_process')
-// const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
 const branch = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\s+/, '')
-console.log('branch',branch);
+console.log(chalk.green(`current branch：${branch}`));
 childProcess.execSync(`git fetch --all`)
 const checkMerge = childProcess.execSync(`git log master ^${branch}`).toString().replace(/\s+/, '')
 
@@ -23,8 +22,6 @@ module.exports = class Service {
     this.inlineOptions = inlineOptions
   }
   init() {
-    console.log('checkMerge',checkMerge.length);
-    // const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.?Merge\sbranch)/
     if (!!checkMerge.length) {
       console.error(
         `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
