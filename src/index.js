@@ -9,7 +9,12 @@
 
 const chalk = require('chalk') // eslint-disable-line
 const msgPath = process.env.HUSKY_GIT_PARAMS
-const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
+const childProcess = require('child_process')
+// const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
+const branch = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\s+/, '')
+console.log('branch',branch);
+const checkMerge = childProcess.execSync(`git log master ^${branch}`).toString().replace(/\s+/, '')
+
 module.exports = class Service {
   constructor(context, { inlineOptions } = {}) {
     this.initialized = false
@@ -17,8 +22,9 @@ module.exports = class Service {
     this.inlineOptions = inlineOptions
   }
   init() {
-    const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.?Merge\sbranch)/
-    if (!commitRE.test(msg)) {
+    console.log('checkMerge',checkMerge);
+    // const commitRE = /^((v\d+\.\d+\.\d+(-(alpha|beta|rc.\d+))?)|((revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types|merge)(\(.+\))?!?: .{1,50}))|(.?Merge\sbranch)/
+    if (0) {
       console.error(
         `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
           `commit message 提交信息：‘${msg}’不符合提交约束规范！！！`

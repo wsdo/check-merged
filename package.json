@@ -11,7 +11,8 @@
     "vcm": "bin/vcm.js"
   },
   "dependencies": {
-    "chalk": "^2.4.2"
+    "chalk": "^2.4.2",
+    "child_process": "^1.0.2"
   },
   "keywords": [],
   "author": "",
